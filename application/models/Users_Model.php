@@ -96,7 +96,7 @@ class Users_Model extends CI_Model {
     }
     public function fetch_all_user_roles()
     {
-        $this->db->select('*');
+        $this->db->select('*'); 
         $this->db->from('user_roles');
         $this->db->where('status',1);
         $query = $this->db->get();
