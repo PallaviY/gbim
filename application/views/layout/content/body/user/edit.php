@@ -13,12 +13,29 @@
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
         <div class="page-breadcrumb bg-white">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title"></h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                            <ol class="breadcrumb ms-auto">
+                                <li><a href="<?php echo base_url().'logout' ?>" class="fw-normal">Logout</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        <div class="page-breadcrumb bg-white">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">
-                        <ol class="breadcrumb ms-auto">
-                            <li><a href="<?php echo base_url().'user' ?>" class="fw-normal">Dashboard</a></li>
-                        </ol></h4>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<?php echo base_url().'user' ?>">Home</a></li>
+                            <li class="breadcrumb-item" aria-current="page">Edit user</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
             <!-- /.col-lg-12 -->
@@ -75,7 +92,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-4">
-                                <label class="col-sm-12">Select Country</label>
+                                <label class="col-sm-12">Select Role</label>
 
                                 <div class="col-sm-12 border-bottom">
                                     <select name="role_type" class="form-select shadow-none p-0 border-0 form-control-line">

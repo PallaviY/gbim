@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 11, 2021 at 12:03 PM
+-- Generation Time: Apr 11, 2021 at 02:15 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -39,6 +39,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Users table';
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phone_number`, `role_type`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Test', 'User', 'test@user.com', '1234', '9987672226', 3, 1, '2021-04-11 12:14:32', '2021-04-11 12:14:32');
 
 -- --------------------------------------------------------
 
@@ -90,7 +97,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_roles`

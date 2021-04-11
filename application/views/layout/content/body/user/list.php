@@ -13,13 +13,28 @@
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
         <div class="page-breadcrumb bg-white">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title"></h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <div class="d-md-flex">
+                            <ol class="breadcrumb ms-auto">
+                                <li><a href="<?php echo base_url().'logout' ?>" class="fw-normal">Logout</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        <div class="page-breadcrumb bg-white">
             <div class="row align-items-center">
                 <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                    <h4 class="page-title">
-                        <ol class="breadcrumb ms-auto">
-                            <li><a href="<?php echo base_url() ?>" class="fw-normal">Dashboard</a></li>
-                            <li><a href="<?php echo base_url() . 'logout' ?>" class="fw-normal">Logout</a></li>
-                        </ol></h4>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item" aria-current="page"><a href="<?php echo base_url().'user' ?>">Home</a></li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
             <!-- /.col-lg-12 -->
@@ -48,12 +63,27 @@
                                         <th class="border-top-0">Last Name</th>
                                         <th class="border-top-0">Username</th>
                                         <th class="border-top-0">Role</th>
+                                        <th class="border-top-0">Created At</th>
+                                        <th class="border-top-0">Update At</th>
                                         <th class="border-top-0">Action</th>
                                         <th class="border-top-0"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbl_data">
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th class="border-top-0">#</th>
+                                        <th class="border-top-0">First Name</th>
+                                        <th class="border-top-0">Last Name</th>
+                                        <th class="border-top-0">Username</th>
+                                        <th class="border-top-0">Role</th>
+                                        <th class="border-top-0">Created At</th>
+                                        <th class="border-top-0">Update At</th>
+                                        <th class="border-top-0">Action</th>
+                                        <th class="border-top-0"></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -96,10 +126,29 @@
                                 $(".print-error-msg").css('display', 'block');
                             } else if (resp.success) {
                                 // console.log(resp.data);
+                                // Setup - add a text input to each footer cell
+                                $('#dataTable tfoot th').each(function () {
+                                    var title = $(this).text();
+                                    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                                });
                                 $('#tbl_data').html(resp.data);
 //                                $('#dataTable').DataTable().ajax.reload();
                                 $('#dataTable').DataTable({
-                                    "lengthChange": false
+                                    "lengthChange": false,
+                                    initComplete: function () {
+                                        // Apply the search
+                                        this.api().columns().every(function () {
+                                            var that = this;
+
+                                            $('input', this.footer()).on('keyup change clear', function () {
+                                                if (that.search() !== this.value) {
+                                                    that
+                                                            .search(this.value)
+                                                            .draw();
+                                                }
+                                            });
+                                        });
+                                    }
                                 });
                                 $('#dataTable').show();
 //                                $.each(resp.data, function (key, value) {

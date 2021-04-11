@@ -33,16 +33,20 @@ class User extends CI_Controller {
             $users = $this->usermodel->fetch_all();
             $output = '';
             if (!empty($users)) {
+                $i=1;
                 foreach ($users as $user) {
                     $output .= '<tr>'
-                            . '<td>' . $user->id . '</td>'
+                            . '<td>' . $i . '</td>'
                             . '<td>' . $user->first_name . '</td>'
                             . '<td>' . $user->last_name . '</td>'
                             . '<td>' . $user->email . '</td>'
                             . '<td>' . $user->role . '</td>'
+                            . '<td>' . $user->created_at . '</td>'
+                            . '<td>' . $user->updated_at . '</td>'
                             . '<td><a href="' . base_url() . 'user/edit/' . $user->id . '"><button type="button" class="btn btn-warning btn-xs edit" name="edit" id="' . $user->id . '">Edit</button></a></td>'
                             . '<td><button type="button" class="btn btn-danger btn-xs delete" name="delete" id="' . $user->id . '">Delete</button></td>'
                             . '</tr>';
+                    $i++;
                 }
             } else {
                 $output .= '<tr><td colspan="4" align="center">No Data Found</td>'
