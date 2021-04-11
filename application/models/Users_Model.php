@@ -106,4 +106,18 @@ class Users_Model extends CI_Model {
             return $result;
         }
     }
+    public function is_user_exists($user_email, $user_number)
+    {
+        $this->db->select('*');
+        $this->db->from('users');
+        $this->db->where('email',$user_email);
+        $this->db->where('phone_number',$user_number);
+        $this->db->where('status',1);
+        $query = $this->db->get();
+        $result = $query->row();
+        if(!empty($result))
+        {
+            return $result;
+        }
+    }
 }

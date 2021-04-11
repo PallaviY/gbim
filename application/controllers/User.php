@@ -69,22 +69,34 @@ class User extends CI_Controller {
 
     public function store() {
         if ($this->input->post('token')) {
-            $user = new Users_Model();
-            $user->first_name = $this->input->post('first_name');
-            $user->last_name = $this->input->post('last_name');
-            $user->email = $this->input->post('email');
-            $user->password = $this->input->post('password');
-            $user->role_type = $this->input->post('role_type');
-
-            $is_user = $this->usermodel->fetch_single_by_email($user);
-            if (!empty($is_user)) {
-                echo json_encode(['error' => 'User already exists', 'code' => 404]);
-            } else {
-                $users = $this->usermodel->store($user);
-                if ($users) {
-                    echo json_encode(['success' => 'User created successfully', 'code' => 200]);
+            if (!empty($this->input->post())) {
+                
+                $this->form_validation->set_rules('email', 'Email', 'is_unique[users.email]');
+                $this->form_validation->set_rules('phone_number', 'Phone number', 'is_unique[users.phone_number]');
+                
+                if ($this->form_validation->run() == FALSE) {
+                    $errors = validation_errors();
+                    echo json_encode(['error' => $errors]);
                 } else {
-                    echo json_encode(['error' => 'Erroo in creating user', 'code' => 404]);
+                    $user = new Users_Model();
+                    $user->first_name = $this->input->post('first_name');
+                    $user->last_name = $this->input->post('last_name');
+                    $user->email = $this->input->post('email');
+                    $user->password = $this->input->post('password');
+                    $user->role_type = $this->input->post('role_type');
+                    $user->phone_number = $this->input->post('phone_number');
+
+                    $is_user = $this->usermodel->is_user_exists($user->email, $user->phone_number);
+                    if (!empty($is_user)) {
+                        echo json_encode(['error' => 'User already exists', 'code' => 404]);
+                    } else {
+                        $users = $this->usermodel->store($user);
+                        if ($users) {
+                            echo json_encode(['success' => 'User created successfully', 'code' => 200]);
+                        } else {
+                            echo json_encode(['error' => 'Erroo in creating user', 'code' => 404]);
+                        }
+                    }
                 }
             }
         }
@@ -111,8 +123,9 @@ class User extends CI_Controller {
             $user->email = $this->input->post('email');
             $user->password = $this->input->post('password');
             $user->role_type = $this->input->post('role_type');
+            $user->phone_number = $this->input->post('phone_number');
 
-            $is_user = $this->usermodel->fetch_single_by_email($user);
+            $is_user = $this->usermodel->is_user_exists($user->email, $user->phone_number);
             if (!empty($is_user)) {
                 echo json_encode(['error' => 'User already exists', 'code' => 404]);
             } else {
