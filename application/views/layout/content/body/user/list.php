@@ -76,6 +76,8 @@
         <!-- ============================================================== -->
         <script type="text/javascript" language="javascript" >
             $(document).ready(function () {
+
+                $('#dataTable').hide();
                 var token = '<?php echo $this->session->userdata('token') ?>';
                 fetch_data();
                 function fetch_data()
@@ -93,8 +95,13 @@
                                 $(".print-error-msg").html(resp.error);
                                 $(".print-error-msg").css('display', 'block');
                             } else if (resp.success) {
-                               // console.log(resp.data);
+                                // console.log(resp.data);
                                 $('#tbl_data').html(resp.data);
+//                                $('#dataTable').DataTable().ajax.reload();
+                                $('#dataTable').DataTable({
+                                    "lengthChange": false
+                                });
+                                $('#dataTable').show();
 //                                $.each(resp.data, function (key, value) {
 //                                    td = '<tr>';
 //                                    td += '<td>' + value.id + '</td>';
@@ -107,7 +114,7 @@
 //                                    td += '</tr>';
 //                                    $('#tbl_data').append(td);
 //                                });
-                                
+
 
                             }
                         }
@@ -131,7 +138,7 @@
                                 {
                                     $(".print-error-msg").html(resp.success);
                                     $(".print-error-msg").css('display', 'block');
-                                    fetch_data();
+                                    location.reload();
                                 }
                             }
                         })
