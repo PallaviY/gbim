@@ -70,10 +70,10 @@ class User extends CI_Controller {
     public function store() {
         if ($this->input->post('token')) {
             if (!empty($this->input->post())) {
-                
+
                 $this->form_validation->set_rules('email', 'Email', 'is_unique[users.email]');
                 $this->form_validation->set_rules('phone_number', 'Phone number', 'is_unique[users.phone_number]');
-                
+
                 if ($this->form_validation->run() == FALSE) {
                     $errors = validation_errors();
                     echo json_encode(['error' => $errors]);
@@ -125,16 +125,11 @@ class User extends CI_Controller {
             $user->role_type = $this->input->post('role_type');
             $user->phone_number = $this->input->post('phone_number');
 
-            $is_user = $this->usermodel->is_user_exists($user->email, $user->phone_number);
-            if (!empty($is_user)) {
-                echo json_encode(['error' => 'User already exists', 'code' => 404]);
+            $users = $this->usermodel->store($user);
+            if ($users) {
+                echo json_encode(['success' => 'User updated successfully', 'code' => 200]);
             } else {
-                $users = $this->usermodel->store($user);
-                if ($users) {
-                    echo json_encode(['success' => 'User updated successfully', 'code' => 200]);
-                } else {
-                    echo json_encode(['error' => 'Erroo in creating user', 'code' => 404]);
-                }
+                echo json_encode(['error' => 'Erroo in creating user', 'code' => 404]);
             }
         }
     }
