@@ -15,10 +15,26 @@ class Domain extends CI_Controller {
      * @author IT Support Developers
      * @date 04-April-2021
      */
-    public function index() {      
-        $this->output->banner_header = 'Domain';
-        $this->output->banner_shotdesc = 'Lorem Ipsum Dolroin Gravida Nibh Vel Velit.';
-        load_view($header = 'layout/header/header', 'layout/content/body/body', 'domain/main_content', $footer = 'layout/footer/footer', 'Domain - Hosting Site', 'Pallavi', $this->output);
+    public function index() {    
+        $token = "05816cfa52ba8238451300cda2114151b948ce0e";
+        $url = "https://api4.seranking.com/sites";
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Authorization: Token ' . $token,
+            'Content-Type: application/json',
+        ));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        $result = curl_exec($curl);
+        if (!$result) {
+            die("Connection Failure");
+        }
+        curl_close($curl);
+        $response = json_decode($result);
+        $this->output->response = $response;
+        load_view($header = 'layout/header/header', 'layout/content/body/body', 'domain/list', $footer = 'layout/footer/footer', 'GBIM', 'Breadcrumb', $this->output);
     }
 
 }
